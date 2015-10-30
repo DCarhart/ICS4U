@@ -10,10 +10,40 @@ public class Main {
 	public static void main(String[] args) {
 		ArrayList<ContestantInformation> contestantAL = new ArrayList<ContestantInformation>();
 		boolean repeat = true;
+		Scanner scan = new Scanner(System.in);
+		String input;
+		do {
+			System.out.println("Choose one of the following:");
+			System.out.println("1. Add new contestant" + "\n" + "2. Print labels" + "\n" + "3. Search" + "\n" + "4. Delete contestant." + "\n" + "5. Clear all contestants." + "\n" + "6. Exit program.");
+			input = scan.nextLine();
+			if (input.equals("1") || input.equalsIgnoreCase("Add new contestant") || input.equalsIgnoreCase("Add new contestant.")) {
+				addContestant(contestantAL);
+			}
+			else if (input.equals("2") || input.equalsIgnoreCase("Print labels") || input.equalsIgnoreCase("Print labels.")) {
+				printLabels(contestantAL);
+			}
+			else if (input.equals("3") || input.equalsIgnoreCase("Search")  || input.equalsIgnoreCase("Search.")) {
+				searchContestants(contestantAL);
+				}	
+			else if (input.equals("4") || input.equalsIgnoreCase("Delete contestant") || input.equalsIgnoreCase("Delete contestant.")) {
+				deleteContestant(contestantAL);
+			}
+			else if (input.equals("5") || input.equalsIgnoreCase("Clear all contestants") || input.equalsIgnoreCase("Clear all contestants.")) {
+				deleteAll(contestantAL);
+			}
+			else if (input.equals("6") || input.equalsIgnoreCase("Exit")  || input.equalsIgnoreCase("Exit.") || input.equalsIgnoreCase("Exit program") || input.equalsIgnoreCase("Exit program.")) {
+			input = "6";	
+			}	
+		} while (!input.equals("6"));
+	}
+
+	public static void addContestant(ArrayList<ContestantInformation> contestantAL) {
+		boolean repeat = true;
+		Scanner scan = new Scanner(System.in);
 		do {
 			ContestantInformation contestant1 = new ContestantInformation();
 			boolean flag = false;
-			Scanner scan = new Scanner(System.in);
+			
 			String fName, lName, StName, StNum, city, province, postalCode, phoneNum;
 			int DoB, MoB, YoB;
 
@@ -165,13 +195,53 @@ public class Main {
 				repeat = true;
 			}
 			else {
-				for (int i=0; i<contestantAL.size();i++) {
-					Label label1 = new Label(contestantAL.get(i));
-					System.out.println(label1.toString());
-					repeat = false;
+				repeat = false;
 				}
-			}
 		} while (repeat);
 	}
-
+	
+	public static void printLabels(ArrayList<ContestantInformation> contestantAL) {
+		for (int i=0; i<contestantAL.size();i++) {
+			Label label1 = new Label(contestantAL.get(i));
+			System.out.println(label1.toString());
+		}
+	}
+	
+	public static void searchContestants(ArrayList<ContestantInformation> contestantAL) {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Who do you want to search for? Input their last name.");
+		String searchLastName = scan.nextLine();
+		for (int i=0; i<contestantAL.size();i++) {
+			if (searchLastName.equals(contestantAL.get(i).getLName())) {
+				System.out.println("Match found!" + "\n" + contestantAL.get(i).getFName() + " " + contestantAL.get(i).getLName());
+			}
+			else {
+				System.out.println("Sorry, that name hasn't been entered.");
+			}
+		}
+		}
+	
+	public static void deleteContestant(ArrayList<ContestantInformation> contestantAL) {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Who do you want to delete? Input their last name.");
+		String searchLastName = scan.nextLine();
+		for (int i=0; i<contestantAL.size();i++) {
+			if (searchLastName.equals(contestantAL.get(i).getLName())) {
+				System.out.println("Match found!" + "\n" + contestantAL.get(i).getFName() + " " + contestantAL.get(i).getLName());
+				System.out.println("Is this the contestant you want to delete?");
+				String delete = scan.nextLine();
+				if (delete.equalsIgnoreCase("Yes") || delete.equalsIgnoreCase("Yes.")) {
+				contestantAL.remove(i);	
+				System.out.println("Contestant removed!");
+				}
+				else {
+					System.out.println("Sorry, that name hasn't been entered.");
+				}
+			}
+		}
+	}
+	
+	public static void deleteAll(ArrayList<ContestantInformation> contestantAL) {
+		contestantAL.removeAll(contestantAL);
+	}
 }

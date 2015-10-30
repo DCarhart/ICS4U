@@ -5,7 +5,7 @@ package carhart;
  * @author David Carhart, 322084039
  *
  */
-public class ContestantInformation {
+public class ContestantInformation implements Comparable {
 	private String firstName;
 	private String lastName;
 	private String streetName;
@@ -355,6 +355,36 @@ public class ContestantInformation {
 		
 	}
 	
-
+	public int compareTo(Object args) {
+		ContestantInformation ci = (ContestantInformation)args;
+		if (ci.lastName.compareTo(this.lastName) < 0) {
+			return -1;
+		}
+		else if (ci.lastName.compareTo(this.lastName) > 0) {
+			return -1;
+		}
+		else //if (ci.lastName.compareTo(this.lastName) == 0)
+			{
+			if (ci.firstName.compareTo(this.firstName) > 0) {
+				return -1;
+			}
+			else if (ci.firstName.compareTo(this.firstName) < 0) {
+				return -1; 
+			}
+			else //if (ci.firstName.compareTo(this.firstName) == 0) 
+				{
+				return 0;
+			}
+		}
+	} 
+	
+	public boolean equals(ContestantInformation ci) {
+		if (ci.firstName.equalsIgnoreCase(this.firstName) && ci.lastName.equalsIgnoreCase(this.lastName)) {
+			return true;	
+		}
+		else {
+		return false;
+		}
+	}
 }
 
