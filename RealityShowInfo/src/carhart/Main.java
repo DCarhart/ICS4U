@@ -1,20 +1,26 @@
 package carhart;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 public class Main {
 
 	public Main() {
 
 	}
-
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) throws IOException, InvalidInputException {
 		ArrayList<ContestantInformation> contestantAL = new ArrayList<ContestantInformation>();
 		boolean repeat = true;
 		Scanner scan = new Scanner(System.in);
 		String input;
 		do {
 			System.out.println("Choose one of the following:");
-			System.out.println("1. Add new contestant" + "\n" + "2. Print labels" + "\n" + "3. Search" + "\n" + "4. Delete contestant." + "\n" + "5. Clear all contestants." + "\n" + "6. Exit program.");
+			System.out.println("1. Add new contestant" + "\n" + "2. Print labels" + "\n" + "3. Search" + "\n" + "4. Delete contestant." + "\n" + "5. Clear all contestants." + "\n" + "6. Save" + "\n" + "7. Load" + "\n" + "8. Exit program.");
 			input = scan.nextLine();
 			if (input.equals("1") || input.equalsIgnoreCase("Add new contestant") || input.equalsIgnoreCase("Add new contestant.")) {
 				addContestant(contestantAL);
@@ -31,10 +37,16 @@ public class Main {
 			else if (input.equals("5") || input.equalsIgnoreCase("Clear all contestants") || input.equalsIgnoreCase("Clear all contestants.")) {
 				deleteAll(contestantAL);
 			}
-			else if (input.equals("6") || input.equalsIgnoreCase("Exit")  || input.equalsIgnoreCase("Exit.") || input.equalsIgnoreCase("Exit program") || input.equalsIgnoreCase("Exit program.")) {
-			input = "6";	
+			else if (input.equals("6") || input.equalsIgnoreCase("Save") || input.equalsIgnoreCase("Save.")) {
+				saveContestants(contestantAL);
+			}
+			else if (input.equals("7") || input.equals("Load") || input.equals("Load.")) {
+				loadContestants(contestantAL);
+			}
+			else if (input.equals("8") || input.equalsIgnoreCase("Exit")  || input.equalsIgnoreCase("Exit.") || input.equalsIgnoreCase("Exit program") || input.equalsIgnoreCase("Exit program.")) {
+			input = "8";	
 			}	
-		} while (!input.equals("6"));
+		} while (!input.equals("8"));
 	}
 
 	public static void addContestant(ArrayList<ContestantInformation> contestantAL) {
@@ -219,7 +231,7 @@ public class Main {
 				System.out.println("Sorry, that name hasn't been entered.");
 			}
 		}
-		}
+	}
 	
 	public static void deleteContestant(ArrayList<ContestantInformation> contestantAL) {
 		Scanner scan = new Scanner(System.in);
@@ -243,5 +255,51 @@ public class Main {
 	
 	public static void deleteAll(ArrayList<ContestantInformation> contestantAL) {
 		contestantAL.removeAll(contestantAL);
+	}
+	
+	public static void saveContestants(ArrayList<ContestantInformation> contestantAL) throws FileNotFoundException {
+		ContestantInformation contestant1 = new ContestantInformation();
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream("src\\carhart\\contestants.txt");
+			PrintStream fps = new PrintStream(fileOutputStream);
+			fps.println(contestantAL.size());
+			for (int i=0; i<contestantAL.size(); i++) {
+				fps.print(contestantAL.get(i).getFName() + "-");
+				fps.print(contestantAL.get(i).getLName() + "-");
+				fps.print(contestantAL.get(i).getStName() + "-");
+				fps.print(contestantAL.get(i).getStNum() + "-");
+				fps.print(contestantAL.get(i).getCity() + "-");
+				fps.print(contestantAL.get(i).getProvince() + "-");
+				fps.print(contestantAL.get(i).getPostalCode() + "-");
+				fps.print(contestantAL.get(i).getPhoneNum() + "-");
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.out.println("All contestants saved!");
+	}
+	
+	public static void loadContestants(ArrayList<ContestantInformation> contestantAL) throws FileNotFoundException, IOException, InvalidInputException, NullPointerException { 
+		try {
+			deleteAll(contestantAL);
+			BufferedReader fbr = new BufferedReader(new FileReader("src\\carhart\\contestants.txt"));
+			int size = Integer.parseInt(fbr.readLine());
+			for (int i=0; i<size;i++) {
+				String load = fbr.readLine();
+				String[] loadArray = load.split("-");
+				contestantAL.add(new ContestantInformation());
+				contestantAL.get(i).setFName(loadArray[0]);
+				contestantAL.get(i).setLName(loadArray[1]);
+				contestantAL.get(i).setStName(loadArray[2]);
+				contestantAL.get(i).setStNum(loadArray[3]);
+				contestantAL.get(i).setCity(loadArray[4]);
+				contestantAL.get(i).setProvince(loadArray[5]);
+				contestantAL.get(i).setPostalCode(loadArray[6]);
+				contestantAL.get(i).setPhoneNum(loadArray[7]);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

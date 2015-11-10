@@ -62,10 +62,6 @@ public class ContestantInformation implements Comparable {
 			if (!Character.isLetter(firstName.charAt(i))) {
 			throw new InvalidInputException("That's not a valid name. Try again.");
 			}
-			/*else if(!Character.isWhitespace(firstName.charAt(i))){
-			throw new InvalidInputException("No spaces in the first name.");
-			}
-			*/
 			else {
 			this.firstName = firstName;
 			}
