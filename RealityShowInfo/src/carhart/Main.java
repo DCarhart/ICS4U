@@ -7,12 +7,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 public class Main {
 
 	public Main() {
 
 	}
-	
+	/** 
+	* @param contestantAL
+	* Main menu -- where user selects command
+	*/
 	public static void main(String[] args) throws IOException, InvalidInputException {
 		ArrayList<ContestantInformation> contestantAL = new ArrayList<ContestantInformation>();
 		boolean repeat = true;
@@ -20,7 +24,7 @@ public class Main {
 		String input;
 		do {
 			System.out.println("Choose one of the following:");
-			System.out.println("1. Add new contestant" + "\n" + "2. Print labels" + "\n" + "3. Search" + "\n" + "4. Delete contestant." + "\n" + "5. Clear all contestants." + "\n" + "6. Save" + "\n" + "7. Load" + "\n" + "8. Exit program.");
+			System.out.println("1. Add new contestant" + "\n" + "2. Print labels" + "\n" + "3. Search" + "\n" + "4. Delete contestant." + "\n" + "5. Clear all contestants." + "\n" + "6. Save" + "\n" + "7. Load" + "\n" + "8. Sort" + "\n" + "9. Exit program.");
 			input = scan.nextLine();
 			if (input.equals("1") || input.equalsIgnoreCase("Add new contestant") || input.equalsIgnoreCase("Add new contestant.")) {
 				addContestant(contestantAL);
@@ -40,15 +44,21 @@ public class Main {
 			else if (input.equals("6") || input.equalsIgnoreCase("Save") || input.equalsIgnoreCase("Save.")) {
 				saveContestants(contestantAL);
 			}
-			else if (input.equals("7") || input.equals("Load") || input.equals("Load.")) {
+			else if (input.equals("7") || input.equalsIgnoreCase("Load") || input.equalsIgnoreCase("Load.")) {
 				loadContestants(contestantAL);
 			}
-			else if (input.equals("8") || input.equalsIgnoreCase("Exit")  || input.equalsIgnoreCase("Exit.") || input.equalsIgnoreCase("Exit program") || input.equalsIgnoreCase("Exit program.")) {
-			input = "8";	
+			else if (input.equals("8") || input.equalsIgnoreCase("Sort") || input.equalsIgnoreCase("Sort.")) {
+				sortContestants(contestantAL);
+			}
+			else if (input.equals("9") || input.equalsIgnoreCase("Exit")  || input.equalsIgnoreCase("Exit.") || input.equalsIgnoreCase("Exit program") || input.equalsIgnoreCase("Exit program.")) {
+			input = "9";	
 			}	
-		} while (!input.equals("8"));
+		} while (!input.equals("9"));
 	}
-
+	/**
+	* @param contestantAL fName, lName, StName, StNum, city, province, postalCode, phoneNum, DoB, MoB, YoB
+	* Adds contestant to contestantAL
+	*/
 	public static void addContestant(ArrayList<ContestantInformation> contestantAL) {
 		boolean repeat = true;
 		Scanner scan = new Scanner(System.in);
@@ -212,6 +222,10 @@ public class Main {
 		} while (repeat);
 	}
 	
+	/** 
+	* @param contestantAL, label1
+	* Prints all contestant information
+	*/
 	public static void printLabels(ArrayList<ContestantInformation> contestantAL) {
 		for (int i=0; i<contestantAL.size();i++) {
 			Label label1 = new Label(contestantAL.get(i));
@@ -219,6 +233,10 @@ public class Main {
 		}
 	}
 	
+	/** 
+	* @param contestantAL
+	* Searches for a contestant based on last name
+	*/
 	public static void searchContestants(ArrayList<ContestantInformation> contestantAL) {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Who do you want to search for? Input their last name.");
@@ -231,8 +249,15 @@ public class Main {
 				System.out.println("Sorry, that name hasn't been entered.");
 			}
 		}
+		if (contestantAL.size() == 0) {
+			System.out.println("There are currently no contestants in the database.");
+		}
 	}
 	
+	/** 
+	* @param contestantAL
+	* Deletes a single contestant whose last name matches the one input by the user
+	*/
 	public static void deleteContestant(ArrayList<ContestantInformation> contestantAL) {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Who do you want to delete? Input their last name.");
@@ -242,21 +267,32 @@ public class Main {
 				System.out.println("Match found!" + "\n" + contestantAL.get(i).getFName() + " " + contestantAL.get(i).getLName());
 				System.out.println("Is this the contestant you want to delete?");
 				String delete = scan.nextLine();
-				if (delete.equalsIgnoreCase("Yes") || delete.equalsIgnoreCase("Yes.")) {
+				if (delete.equalsIgnoreCase("Yes") || delete.equalsIgnoreCase("Yes.") || delete.equalsIgnoreCase("Y")) {
 				contestantAL.remove(i);	
 				System.out.println("Contestant removed!");
 				}
 				else {
-					System.out.println("Sorry, that name hasn't been entered.");
+					System.out.println("Operation cancelled.");
 				}
+			}
+			else {
+				System.out.println("Sorry, we couldn't find that contestant.");
 			}
 		}
 	}
 	
+	/** 
+	* @param contestantAL
+	* Deletes all contestants in contestantAL
+	*/
 	public static void deleteAll(ArrayList<ContestantInformation> contestantAL) {
 		contestantAL.removeAll(contestantAL);
 	}
 	
+	/** 
+	* @param contestantAL, contestant1, fileOutputStream, fps
+	* Saves all contestant information into contestants.txt
+	*/
 	public static void saveContestants(ArrayList<ContestantInformation> contestantAL) throws FileNotFoundException {
 		ContestantInformation contestant1 = new ContestantInformation();
 		try {
@@ -279,6 +315,10 @@ public class Main {
 		System.out.println("All contestants saved!");
 	}
 	
+	/** 
+	* @param contestantAL, fbr
+	* loads info saved in contestant.txt
+	*/
 	public static void loadContestants(ArrayList<ContestantInformation> contestantAL) throws FileNotFoundException, IOException, InvalidInputException, NullPointerException { 
 		try {
 			deleteAll(contestantAL);
@@ -296,10 +336,48 @@ public class Main {
 				contestantAL.get(i).setProvince(loadArray[5]);
 				contestantAL.get(i).setPostalCode(loadArray[6]);
 				contestantAL.get(i).setPhoneNum(loadArray[7]);
-			}
+				
+				//Failed alternate method -- keeping for posterity
+				/*String firstName = fbr.readLine();
+				String lastName = fbr.readLine();
+				String streetName = fbr.readLine();
+				String streetNum = fbr.readLine();
+				String city = fbr.readLine();
+				String province = fbr.readLine();
+				String postalCode = fbr.readLine();
+				String phoneNum = fbr.readLine();
+				String birthDay = fbr.readLine();
+				String birthMonth = fbr.readLine();
+				String birthYear = fbr.readLine();
+				
+				int DoB = Integer.parseInt(birthDay);
+				int MoB = Integer.parseInt(birthMonth);
+				int YoB = Integer.parseInt(birthYear);
+				try {
+					contestantAL.add(new ContestantInformation(firstName, lastName, streetName, streetNum, city, province, postalCode, phoneNum, DoB, MoB, YoB));
+				} catch (InvalidInputException e) {
+					e.printStackTrace();
+				}
+				*/
+				
+				}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+		  catch (NullPointerException f) {
+			f.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	/** 
+	* @param contestantAL
+	* Sorts contestantAL into an ordered list
+	*/
+	public static void sortContestants(ArrayList<ContestantInformation> contestantAL) {
+		Collections.sort(contestantAL);
+		if (contestantAL.size() == 0) {
+			System.out.println("Sorry, there aren't any contestants to sort!");
+		}
 	}
 }
