@@ -349,30 +349,7 @@ public class Main {
 				contestantAL.get(i).setProvince(loadArray[5]);
 				contestantAL.get(i).setPostalCode(loadArray[6]);
 				contestantAL.get(i).setPhoneNum(loadArray[7]);
-				
-				//Failed alternate method -- keeping for posterity
-				/*String firstName = fbr.readLine();
-				String lastName = fbr.readLine();
-				String streetName = fbr.readLine();
-				String streetNum = fbr.readLine();
-				String city = fbr.readLine();
-				String province = fbr.readLine();
-				String postalCode = fbr.readLine();
-				String phoneNum = fbr.readLine();
-				String birthDay = fbr.readLine();
-				String birthMonth = fbr.readLine();
-				String birthYear = fbr.readLine();
-				
-				int DoB = Integer.parseInt(birthDay);
-				int MoB = Integer.parseInt(birthMonth);
-				int YoB = Integer.parseInt(birthYear);
-				try {
-					contestantAL.add(new ContestantInformation(firstName, lastName, streetName, streetNum, city, province, postalCode, phoneNum, DoB, MoB, YoB));
-				} catch (InvalidInputException e) {
-					e.printStackTrace();
-				}
-				*/
-				
+		
 				}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
