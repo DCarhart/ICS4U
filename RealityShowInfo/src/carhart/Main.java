@@ -9,6 +9,13 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 public class Main {
+	
+	/*
+	 * 11/11/15
+	 * David Carhart
+	 * Main class of Reality Show Project
+	 * Program takes in candidates entered by the user, adds them to an array list, and can print out, search for delete one or all of the list, save the contestants to a text file, load from the file and sort the entire list
+	 */
 
 	public Main() {
 
@@ -34,7 +41,7 @@ public class Main {
 			}
 			else if (input.equals("3") || input.equalsIgnoreCase("Search")  || input.equalsIgnoreCase("Search.")) {
 				searchContestants(contestantAL);
-				}	
+			}	
 			else if (input.equals("4") || input.equalsIgnoreCase("Delete contestant") || input.equalsIgnoreCase("Delete contestant.")) {
 				deleteContestant(contestantAL);
 			}
@@ -169,6 +176,9 @@ public class Main {
 			do {
 				DoB = scan.nextInt();
 				flag = false;
+				if (DoB > 31) {
+					System.out.println("That's not a possible date.");
+				}
 				try {
 					contestant1.setDoB(DoB);
 				} catch (InvalidInputException e) {
@@ -181,6 +191,9 @@ public class Main {
 			do {
 				MoB = scan.nextInt();
 				flag = false;
+				if (MoB > 12) {
+					System.out.println("There is no month" + MoB);
+				}
 				try {
 					contestant1.setMoB(MoB);
 				} catch (InvalidInputException e) {
@@ -241,18 +254,18 @@ public class Main {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Who do you want to search for? Input their last name.");
 		String searchLastName = scan.nextLine();
-		for (int i=0; i<contestantAL.size();i++) {
-			if (searchLastName.equals(contestantAL.get(i).getLName())) {
-				System.out.println("Match found!" + "\n" + contestantAL.get(i).getFName() + " " + contestantAL.get(i).getLName());
+			for (int i=0; i<contestantAL.size();i++) {
+				if (searchLastName.equals(contestantAL.get(i).getLName())) {
+					System.out.println("Match found!" + "\n" + contestantAL.get(i).getFName() + " " + contestantAL.get(i).getLName());
+				}
+				else {
+					System.out.println("Sorry, that name hasn't been entered.");
+				}
 			}
-			else {
-				System.out.println("Sorry, that name hasn't been entered.");
+			if (contestantAL.size() == 0) {
+				System.out.println("There are currently no contestants in the database.");
 			}
 		}
-		if (contestantAL.size() == 0) {
-			System.out.println("There are currently no contestants in the database.");
-		}
-	}
 	
 	/** 
 	* @param contestantAL
@@ -307,7 +320,7 @@ public class Main {
 				fps.print(contestantAL.get(i).getCity() + "-");
 				fps.print(contestantAL.get(i).getProvince() + "-");
 				fps.print(contestantAL.get(i).getPostalCode() + "-");
-				fps.print(contestantAL.get(i).getPhoneNum() + "-");
+				fps.print(contestantAL.get(i).getPhoneNum() + "\n");
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
