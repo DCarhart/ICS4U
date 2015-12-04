@@ -26,8 +26,8 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
-	int width = 500;
-	int height = 300;
+	int width = 1000;
+	int height = 600;
 
 	/**
 	 * The number of balls on the screen.
