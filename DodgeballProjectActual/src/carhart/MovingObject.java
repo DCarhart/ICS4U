@@ -142,6 +142,7 @@ public abstract class MovingObject implements Runnable {
 				Thread.sleep(pauseDuration);
 			} catch (InterruptedException e) {
 			}
+			
 		}
 	}
 
