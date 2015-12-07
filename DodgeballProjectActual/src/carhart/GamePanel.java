@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
 	/**
 	 * An array of balls.
 	 */
-	FlashingBall[] ball = new FlashingBall[numBalls];
+	AsteroidObjects[] ball = new AsteroidObjects[numBalls];
 	int[] ballX = new int[numBalls];
 	int[] ballY = new int[numBalls];
     /**
@@ -76,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
 		this.setPreferredSize(new Dimension(width, height));
 		this.setBackground(Color.BLACK);
 		for (int i = 0; i < numBalls; i++) {
-			ball[i] = new FlashingBall(50, 50, 0, width, 0, height);
+			ball[i] = new AsteroidObjects(50, 50, 0, width, 0, height);
 			ball[i].setXSpeed(Math.random() * 16-8);
 			ball[i].setYSpeed(Math.random() * 16-8);
 			ball[i].setColor(new Color((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256)));			
@@ -112,7 +112,7 @@ public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
 			ball[i].draw(g);
 		}
 		g.setColor(Color.WHITE);
-		g.fillRect(x, y, 15, 15);
+		g.fillOval(x, y, 15, 15);
 	}
 	
 
@@ -120,38 +120,32 @@ public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
+		// tracks the movement of the mouse and determines whether it has collided with one of the balls
+		// triggers change in background colour to denote collision and therefore failure
 		 x = e.getX ();
 		 y = e.getY ();
 		 for (int i = 0; i < numBalls; i++) {
 			 ballX[i] = (int) ball[i].getX();
 			 ballY[i] = (int) ball[i].getY();
-			 if (x <= ballX[i]) {
-				 if (y<=ballY[i]) {
-					 this.setBackground(Color.RED);
-					 }
-			 }
-		 }
-		 
-			 /*
-			  * ballX[i] = (int) ball[i].getX();
-				ballY[i] = (int) ball[i].getY();
-				
-			
-				int drawX = ballX[i];
-			 	int drawY = ballY[i];
-			  * double distance = Math.sqrt((x-drawX)^2 + (y-drawY)^2);
-				 if (x<=distance||y<=distance) {
+				 if (x-15 <= ballX[i] && x+15 >= ballX[i] && y-15 <=ballY[i] && y+15 >= ballY[i]) {
 					 this.setBackground(Color.RED);
 				 }
-				 */
-		 repaint ();
-	}
+			 }
+		 repaint();
+		 }
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
 		x = e.getX ();
 		y = e.getY ();
+		for (int i = 0; i < numBalls; i++) {
+			 ballX[i] = (int) ball[i].getX();
+			 ballY[i] = (int) ball[i].getY();
+				 if (x-15 <= ballX[i] && x+15 >= ballX[i] && y-15 <=ballY[i] && y+15 >= ballY[i]) {
+					 this.setBackground(Color.RED);
+				 }
+			 }
 		repaint ();
 	}		
 }

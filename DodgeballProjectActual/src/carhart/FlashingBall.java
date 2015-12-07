@@ -45,6 +45,7 @@ public class FlashingBall extends MovingObject {
 	 * @param bottom
 	 *            The bottom edge.
 	 */
+	
 	public FlashingBall(double x, double y, int left, int right, int top, int bottom) {
 		super(x, y, left + 10, right - 10, top + 10, bottom - 10);
 		// numbers above must match the radius
@@ -95,4 +96,9 @@ public class FlashingBall extends MovingObject {
 	public boolean isFilled(){
 		return filledIn;
 	}
+	
+	public int getRadius() {
+		return radius;
+	}
+	
 }
