@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  * <br>
  * @version Nov. 2015
  * 
- * @author Christina Kemp adapted from Sam Scott
+ * @author David Carhart adapted from Christina Kemp adapted from Sam Scott
  */
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
@@ -107,16 +107,21 @@ public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	public void paintComponent(Graphics g) {
+		//draws the balls/asteroids
 		super.paintComponent(g);
 		for (int i = 0; i < numBalls; i++) {
 			ball[i].draw(g);
 		}
+		//draws the player character's object
 		g.setColor(Color.WHITE);
 		g.fillOval(x, y, 15, 15);
 	}
 	
 
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -134,9 +139,13 @@ public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
 		 repaint();
 		 }
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
+		// equivalent to mouseMoved, tracks mouse movement even when mouse1 is pressed down
 		x = e.getX ();
 		y = e.getY ();
 		for (int i = 0; i < numBalls; i++) {
