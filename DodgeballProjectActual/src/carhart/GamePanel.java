@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable, MouseMotionListener {
 	/**
 	 * The number of balls on the screen.
 	 */
-	final int numBalls = 10;
+	final int numBalls = 30;
 	/**
 	 * The pause between repainting (should be set for about 30 frames per
 	 * second).
